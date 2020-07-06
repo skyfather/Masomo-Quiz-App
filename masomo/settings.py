@@ -33,11 +33,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-<<<<<<< HEAD
+
 DEBUG = env('DEBUG')
-=======
+
 DEBUG = False
->>>>>>> bef8624a373878acfd695bf77c9b59b51c447a6a
+
 
 ALLOWED_HOSTS = []
 
@@ -146,10 +146,7 @@ if DEBUG:
     STATICFILES_DIRS = (
         os.path.join(os.path.dirname(BASE_DIR), "static","static"),
     )
-<<<<<<< HEAD
 
-=======
->>>>>>> bef8624a373878acfd695bf77c9b59b51c447a6a
 
 # CKEDITOR_UPLOAD_PATH = "uploads/"
 
