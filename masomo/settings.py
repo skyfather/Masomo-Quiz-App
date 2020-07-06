@@ -20,6 +20,7 @@ env = environ.Env(
 )
 # reading .env file
 environ.Env.read_env()
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -28,8 +29,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '^kx@$7j93o$(0yoqabl^yi=%%89@8)uudka^*no-1b_(q8*bh@'
-# SECRET_KEY = env('SECRET_KEY')
+# SECRET_KEY = '^kx@$7j93o$(0yoqabl^yi=%%89@8)uudka^*no-1b_(q8*bh@'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
@@ -95,24 +96,8 @@ WSGI_APPLICATION = 'masomo.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    # 'default': {
-    #     # 'ENGINE': 'django.db.backends.sqlite3',
-    #     # 'NAME': os.path.join(BASE_DIR, 'database.sqlite3'),
-    # }
     'default': env.db(),
-    'extra': env.db('SQLITE_URL', default='sqlite:////tmp/my-tmp-sqlite.db')
 }
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'mydatabase',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#         'HOST': '127.0.0.1',
-#         'PORT': '80',
-#     }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -152,9 +137,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
-]
+if DEBUG:
+    STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static-only")
+    STATICFILES_DIRS = (
+        os.path.join(os.path.dirname(BASE_DIR), "static","static"),
+    )
 
 
 # CKEDITOR_UPLOAD_PATH = "uploads/"
