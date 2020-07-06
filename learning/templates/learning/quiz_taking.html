@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-8">
+      <h3>{{quiz.name}}</h3>
+      {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+      {% if quiz.get_questions %}
+        <h5>Questions: </h5>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="start_quiz" value="{{quiz.name}}">
+          <button type="submit" name="button_quiz_taken" class="btn btn-danger mb-2">START</button>
+        </form>
+        <ul class="list-group">
+        {% for question in questions %}
+          <li class="list-group-item mb-3">
+            {% if questions.has_next %}
+              <form class="form-group" action="?page={{ questions.next_page_number }}" method="post">
+            {% else %}
+              <form class="form-group" method="post">
+            {% endif %}
+                {% csrf_token %}
+                <p>{{ question|safe }}</p>
+                <a href="{% url 'question_detail' question.pk %}">Details</a>
+                <input type="hidden" name="question" value="{{ question }}">
+                <p>Answers:</p>
+                {% for answer in question.get_answers %}
+                  <div class="radio">
+                    <label><input type="radio" name="question_choice" required value="{{answer}}">{{ answer }}</label>
+                  </div>
+                {% endfor %}
+                {% if questions.has_next %}
+                  <button type="submit" name="subsequent_submit" class="btn btn-outline-warning">Submit</button>
+                {% else %}
+                  <input type="submit" name="final_submit" value="Submit">
+                {% endif %}
+            </form>
+          </li>
+        {% endfor %}
+        </ul>
+      {% else %}
+        <h5>No Questions</h5>
+      {% endif %}
+
+    </div>
+    <div class="col-md-4">
+      <h5>Quiz Takers: {{ quiz_takers_count }}</h5>
+      <!-- <p>{{ user.get_student }}</p> -->
+      {% if quiz_takers %}
+        {% for quiz_taker in quiz_takers %}
+          {{ quiz_taker.student }}
+          {{ quiz_taker.quiz }}
+        {% endfor %}
+      {% else %}
+        No quiz takers
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- {% if questions.has_other_pages %}
+  <ul class="pagination">
+    {% if questions.has_previous %}
+      <li><a href="?page={{ questions.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in questions.paginator.page_range %}
+      {% if questions.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if questions.has_next %}
+      <li><a href="?page={{ questions.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+  {% endif %} -->
+{% endblock %}
+
+<!-- <ul class="pagination">
+  <li><a href="#">1</a></li>
+  <li><a href="#">2</a></li>
+  <li><a href="#">3</a></li>
+  <li><a href="#">4</a></li>
+  <li><a href="#">5</a></li>
+</ul> -->

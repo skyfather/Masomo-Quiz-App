@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  {% if user.is_authenticated and user.is_teacher %}
+    <div>
+      <h3>Quiz
+        <a href="{% url 'create_quiz' %}"><button type="button" name="btn_question_add" class="btn btn-primary btn-sm ml-2">Create Quiz</button></a>
+      </h3>
+    </div>
+  {% endif %}
+  {% if user.is_authenticated and user.is_student %}
+
+
+  <div class="list-group">
+    {% for quiz in object_list %}
+      {% if quiz.subject in user.student.interests.all %}
+        <div  class="list-group-item mb-2">
+          <h4 class="list-group-item-heading">
+            {{ quiz.name }}
+            <a href="{% url 'quiz_detail' quiz.pk %}"><button type="button" name="btn_quiz_list" class="btn btn-info btn-sm ml-2">Details</button></a>
+          </h4>
+          <p class="list-group-item-text">
+            {{ quiz.subject }} <small class="text-muted">last updated on {{ quiz.updated_on }}</small>
+            <a href="{% url 'take_quiz' quiz.pk %}"><button type="button" name="btn_question_take" class="btn btn-outline-primary btn-sm ml-2">Take Quiz</button></a>
+          </p>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% else %}
+    <div class="list-group">
+    {% for quiz in object_list %}
+      <div  class="list-group-item mb-2">
+        <h4 class="list-group-item-heading">
+          {{ quiz.name }}
+          <a href="{% url 'quiz_detail' quiz.pk %}"><button type="button" name="btn_quiz_list" class="btn btn-info btn-sm ml-2">Details</button></a>
+        </h4>
+        <p class="list-group-item-text">
+          {{ quiz.subject }} <small class="text-muted">last updated on {{ quiz.updated_on }}</small>
+
+        </p>
+      </div>
+    {% endfor %}
+    {% endif %}
+  </div>
+
+  <!-- <ul class="pagination">
+    <li><a href="#">1</a></li>
+    <li class="active"><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+  </ul> -->
+
+  <!-- <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+    <li><a data-toggle="tab" href="#menu1">Quiz Results</a></li>
+    <li><a data-toggle="tab" href="#menu2">Menu 2</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div id="home" class="tab-pane fade in active">
+      <h3>HOME</h3>
+      <p>Some content.</p>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <h3>Menu 1</h3>
+      <p>Some content in menu 1.</p>
+    </div>
+    <div id="menu2" class="tab-pane fade">
+      <h3>Menu 2</h3>
+      <p>Some content in menu 2.</p>
+    </div>
+  </div> -->
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>Questions</h3>
+  {% if user.is_authenticated and user.is_teacher %}
+    <div class="">
+      <a href="{% url 'create_question' %}"><button type="button" name="btn_question_add" class="btn btn-primary btn-sm">Create Question</button></a>
+    </div>
+  {% endif %}
+
+  <ul class="list-group mt-2">
+    {% for question in object_list %}
+      <li class="list-group-item mb-3">
+        {{ question.question|safe }}
+        <em>{{ question.quiz }}</em>
+        <a href="{% url 'question_detail' question.pk %}"><button type="button" name="btn_question_details" class="btn btn-default btn-sm">Details</button></a>
+      </li>
+    {% endfor %}
+  </ul>
+  <div class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+      <span class="current">
+        Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+      </span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+      {% endif %}
+    </span>
+  </div>
+{% endblock %}

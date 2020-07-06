@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Signup</h2>
+  <a href="{% url 'teacher_signup' %}"><button type="button" class="btn btn-primary" name="teacher">I'm a Teacher</button></a>
+  <a href="{% url 'student_signup' %}"><button type="button" class="btn btn-success" name="student">I'm a Student</button></a>
+  <p>Alredy have an acount? <a href="{%url 'login' %}">Login</a></p>
+{% endblock %}

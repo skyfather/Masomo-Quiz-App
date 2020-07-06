@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h1>Masomo e-learning</h1>
+    <small>An intuitive quiz app.</small>
+    {% if user.is_authenticated %}
+    {% if user.is_teacher %}
+    <h5>Hi Teacher <strong>{{user.username}}</strong>, welcome</h5>
+    <a href="{%url 'create_quiz' %}">Create Quiz</a>
+    <a href="{%url 'quiz_list' %}">Quizes</a>
+    {% elif user.is_student %}
+    <p>Hi Student <em>{{user.username}}</em>, welcome</p>
+    <strong>Interests: </strong>
+    {% for sub in user.student.interests.all %}
+      {{sub}}
+    {% endfor %}
+    {% else %}
+    <p>Hi <em>{{user.username}}</em>, welcome</p>
+    {% endif %}
+    {% endif %}
+  </div>
+{% endblock %}

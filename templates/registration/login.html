@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+{% block content %}
+  <div class="login">
+    <div class="login-item">
+      <h2>Login</h2>
+    </div>
+    <div class="login-item">
+      <form class="form" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">
+        Login
+        </button>
+        {% endbuttons %}
+      </form>
+    </div>
+    <div class="login-item">
+      <p>Don't have an account? <a href="{%url 'signup' %}">Signup</a></p>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+{% block content %}
+  <h2>Update Quiz</h2>
+
+  <form class="" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" name="btn_quiz_create" class="btn btn-primary">Update</button>
+  </form>
+{% endblock %}

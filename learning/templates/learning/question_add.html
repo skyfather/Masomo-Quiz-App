@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+{% block content %}
+  <h2>Create Question</h2>
+  <form class="" method="post">
+    {% csrf_token %}
+    {{ form.media }}
+    {% bootstrap_form form %}
+    <button type="submit" name="btn_question_create" class="btn btn-primary">Create</button>
+  </form>
+{% endblock %}

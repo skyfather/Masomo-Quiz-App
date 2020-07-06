@@ -1,0 +1,14 @@
+.login {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    width: 400px;
+    background-color: lightgrey;
+
+}
+
+.login-item {
+    width: 350px;
+    margin: 10px;
+}

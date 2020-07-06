@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>Answers</h3>
+  <ul class="list-group mt-2">
+    {% for answer in object_list %}
+      <li class="list-group-item mb-3">
+        {{ answer.answer|safe }}
+        {{ answer.is_correct }}
+        <em>{{ answer.question }}</em>
+
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
