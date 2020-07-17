@@ -7,11 +7,9 @@
 
 {% block content %}
 <div class="login">
-  <div class="login-item">
-    <h2>Student Signup</h2>
-  </div>
     <div class="login-item">
       <form class="form" method="post">
+        <h2>Student Signup</h2>
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
@@ -20,9 +18,9 @@
         </button>
         {% endbuttons %}
       </form>
-    </div>
-    <div class="login-item">
-      <p>Alredy have an acount? <a href="{%url 'login' %}">Login</a></p>
+      <div class="bottom-text">
+        <p>Alredy have an acount? <a href="{%url 'login' %}">Login</a></p>
+      </div>
     </div>
 </div>
 
