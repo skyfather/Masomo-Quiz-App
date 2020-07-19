@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.urls import reverse_lazy, reverse
+from django.http import JsonResponse
 from django.contrib import messages
 from django.db.models import F
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView#,DetailView
@@ -117,17 +118,39 @@ def quiz_results(request, pk):
     # correct_responses = QuizTakerResponse.objects.filter(quiztaker=quiz_taker_id,question__quiz=pk,answer__is_correct=True).count()
     #update the correct answers for the quiz_taker
     correct_responses = quiz_taker.correct_answers
-    if quiz_results.count() > 0:
-        score = (correct_responses/quiz_results.count())*100
-    else:
-        score = 0
-    # else:
-    #     quiz_results = QuizTakerResponse.objects.filter(quiztaker__student__user__username=request.user,question__quiz=pk)
     context = {
         'quiz_taker': quiz_taker,
         'quiz_results': quiz_results,
         'quiz_results_count':quiz_results.count(),
         'correct_responses':correct_responses,
-        'score': score
+        # 'score': score,
+        'score': quiz_taker.get_percentage_score(),
     }
     return render(request,"learning\\quiz_result.html",context)
+
+def quiz_results_chart(request, pk):
+    quiz_taker_id = request.session['quiz_taker_id']
+    quiz_taker = QuizTaker.objects.get(id=quiz_taker_id)
+
+    score = quiz_taker.get_percentage_score()
+    wrong_scores = 100-score
+    labels = ["Correct Aswers",   "Wrong Answers"]
+    data_items = [score, wrong_scores]
+
+    #Retrieve all quizzes taken by the student
+    quizzes_taken = QuizTaker.objects.filter(student__user = request.user )
+    x_labels = []
+    y_values = []
+    i=1
+    if quizzes_taken:
+        for quiz in quizzes_taken:
+            y_values.append(quiz.get_percentage_score())
+            x_labels.append(f'Attempt {i}')
+            i+=1
+
+    return JsonResponse(data={
+        'labels':labels,
+        'data_items':data_items,
+        'x_labels':x_labels,
+        'y_values':y_values,
+    })
