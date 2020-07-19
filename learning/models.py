@@ -1,7 +1,9 @@
 from django.urls import reverse
 from django.db import models
+from django.db.models import F
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 # from django.db.models.signals import pre_save
 # from django.dispatch import receiver
 
@@ -87,6 +89,16 @@ class QuizTaker(models.Model):
 
     def get_quiz_response(self):
         return self.quiztakerresponse_set.all()
+    def get_percentage_score(self):
+        questions = self.quiz.get_questions().count()
+        try:
+            score = (self.correct_answers/questions)*100
+        except Exception as e:
+            print("DIVISION By ZERRO")
+            println(e)
+            return 0
+        else:
+            return score
 
     def __str__(self):
         return self.student.user.username
@@ -106,7 +118,8 @@ class QuizTakerResponse(models.Model):
             print(f'{self.quiztaker} has not taken QUIZ {self.question.quiz}')# Maybe we need to raise it and catch it some
             raise self.question.quiz.DoesNotExist(f"{self.quiztaker} has no interest in {self.question.quiz}")
         else:
-            super(QuizTakerResponse, self).save(*args,**kwargs)
+            self.quiztaker.end_time = F(timezone.now())
+            return super(QuizTakerResponse, self).save(*args,**kwargs)
 
     def __str__(self):
         return self.question
