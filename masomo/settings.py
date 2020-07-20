@@ -25,7 +25,7 @@ SECRET_KEY = '^kx@$7j93o$(0yoqabl^yi=%%89@8)uudka^*no-1b_(q8*bh@'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['masomoquiz.pythonanywhere.com']
 
 
 # Application definition
@@ -151,3 +151,7 @@ if DEBUG:
 
 LOGIN_REDIRECT_URL = 'quiz_list' #new
 LOGOUT_REDIRECT_URL = 'index' #new
+
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROO = os.path.join(BASE_DIR, 'media')
