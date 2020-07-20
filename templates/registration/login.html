@@ -6,12 +6,9 @@
 {% bootstrap_messages %}
 
 {% block content %}
-  <div class="login">
-    <div class="login-item">
-      <h2>Login</h2>
-    </div>
     <div class="login-item">
       <form class="form" method="post">
+        <h2>Login</h2>
         {% csrf_token %}
         {% bootstrap_form form %}
         {% buttons %}
@@ -20,10 +17,10 @@
         </button>
         {% endbuttons %}
       </form>
+      <div class="bottom-text">
+        <p>Forgot password? <a href="{%url 'password_reset' %}">Reset Password</a></p>
+        <p>Don't have an account? <a href="{%url 'signup' %}">Signup</a></p>
+      </div>
     </div>
-    <div class="login-item">
-      <p>Don't have an account? <a href="{%url 'signup' %}">Signup</a></p>
-    </div>
-  </div>
 
 {% endblock %}

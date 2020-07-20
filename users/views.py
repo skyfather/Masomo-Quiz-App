@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.contrib.auth import login
 from django.shortcuts import redirect
-from django.views.generic import CreateView, TemplateView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, TemplateView, UpdateView
 from django.contrib.auth.models import Group, Permission
+from django.contrib.auth.forms import UserChangeForm
 
 from .forms import StudentSignUpForm, TeacherSignUpForm
 from .models import CustomUser
@@ -56,3 +58,10 @@ class TeacherSignUpView(CreateView):
             user.groups.add(group)
         login(self.request, user)
         return redirect('create_quiz')
+
+class ProfileUpdateView(UpdateView):
+    model = CustomUser
+    # form_class = UserChangeForm
+    success_url = reverse_lazy('index')
+    template_name = 'profile_update.html'
+    fields = ('username','email','first_name','last_name')

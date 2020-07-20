@@ -17,7 +17,8 @@ class CreateAnswerView(CreateView):
     form_class = AnswerForm
     # success_url = reverse_lazy('quiz_detail')
     template_name = 'learning\\create_answer.html'
-    success_url = reverse_lazy('quiz_list')
+    success_url = reverse_lazy('question_list')
+    # success_url = reverse_lazy('question_detail', args=[self.question.pk])
     # def get(self, request, *args,**kwargs):
     #     print("----------------------------------------")
     #     print(request)

@@ -2,24 +2,137 @@
 
 {% block content %}
   {% if user.is_authenticated and user.is_student %}
-  <h5>Found {{ quiz_results_count }} Quiz Results for {{ quiz_taker }}</h5>
-  <h6>Correct_responses: {{ correct_responses }} | Score: <em>{{ score }}%</em></h6>
-  {% for response in quiz_results %}
-    <div class="list-group">
-          <div  class="list-group-item mb-2">
-            <h4 class="list-group-item-heading">
-              {{ response.quiztaker }}
-              <small class="text-muted">Start Time: {{ response.quiztaker.start_time }}</small>
-              <small class="text-muted">End Time: {{ response.quiztaker.end_time }}</small>
-            </h4>
-            <p class="list-group-item-text">
-              Question: {{ response.question }}
-              Answer: {{ response.answer }}
-            </p>
-            {{ response.answer.is_correct }}
-          </div>
+  <div class="row">
+    <div class="col-md-6">
+
+      <h5>Found {{ quiz_results_count }} Quiz Results for {{ quiz_taker }}</h5>
+      <h6>Correct_responses: {{ correct_responses }} | Score: <em>{{ score }}%</em></h6>
+      <p>
+        <small class="text-muted">Start Time: {{ quiz_taker.start_time }}</small>
+        <small class="text-muted">End Time: {{ quiz_taker.end_time }}</small>
+      </p>
+      <a href="{% url 'results_pdf' quiz_taker.quiz.id %}" type="button" name="button" class="btn btn-primary mb-1">Download</a>
+      {% for response in quiz_results %}
+        <div class="list-group">
+              <div  class="list-group-item mb-2">
+                <p class="list-group-item-text">
+                  <h5>Question:</h5> {{ response.question|safe }}
+                  <h6>Answer:</h6> {{ response.answer|safe }}
+                </p>
+                {{ response.answer.is_correct }}
+              </div>
+        </div>
+      {% endfor %}
     </div>
-  {% endfor %}
+    <div class="col-md-6">
+
+        <div class="bar-chart">
+          <h5>Charts</h5>
+          <canvas id="results-bar-chart1" data-url="{% url 'result-chart' quiz_taker.quiz.id %}" width="300" height="300"></canvas>
+          <canvas id="results-bar-chart2" data-url="{% url 'result-chart' quiz_taker.quiz.id %}" width="300" height="300"></canvas>
+          <canvas id="results-bar-chart3" data-url="{% url 'result-chart' quiz_taker.quiz.id %}" width="300" height="300"></canvas>
+        </div>
+      </div>
+
+    </div><!-- end row -->
   {% endif %}
+
+  <script type="text/javascript">
+    {% block jquery %}
+      console.log("BEFORE")
+      var endpoint = "/quiz/1/result-chart"
+      var labels = []
+      var defaultData = []
+      var x_labels = []
+      var y_values = []
+      $.ajax({
+        method: "GET",
+        url: endpoint,
+        success: function(data){
+          console.log(data.x_labels);
+          console.log(data.y_values);
+          labels = data.labels
+          defaultData = data.data_items
+          x_labels = data.x_labels
+          y_values = data.y_values
+          setBarChart()
+          setLineChart()
+          setPieChart()
+
+        },
+        error: function(error_data){
+          console.log("ERRROR")
+          console.log(error_data)
+        }
+      })
+      console.log("AFTER")
+      function setPieChart(){
+        var ctx = document.getElementById("results-bar-chart3").getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'pie',
+          data: {
+          labels: labels,
+          datasets: [{
+             data: defaultData, // Specify the data values array
+
+             borderColor: ['#2196f38c', '#f443368c', '#3f51b570', '#00968896'], // Add custom color border
+             backgroundColor: ['#2196f38c', '#f443368c', '#3f51b570', '#00968896'], // Add custom color background (Points and Fill)
+             borderWidth: 1 // Specify bar border width
+          }]},
+          options: {
+          responsive: true, // Instruct chart js to respond nicely.
+          // maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
+          }
+        });
+      }
+      function setBarChart(){
+        var ctx = document.getElementById("results-bar-chart1").getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+          labels: x_labels,
+          datasets: [{
+            label: 'Quizzes Taken',
+             data: y_values, // Specify the data values array
+
+             borderColor: ['#2196f38c', '#f443368c', '#3f51b570', '#00968896'], // Add custom color border
+             backgroundColor: [ // Add custom color background (Points and Fill)
+               'rgba(255, 99, 132, 0.2)',
+               'rgba(54, 162, 235, 0.2)',
+               'rgba(255, 206, 86, 0.2)',
+               'rgba(75, 192, 192, 0.2)',
+               'rgba(153, 102, 255, 0.2)',
+               'rgba(255, 159, 64, 0.2)',
+             ],
+             borderWidth: 1 // Specify bar border width
+          }]},
+          options: {
+          responsive: true, // Instruct chart js to respond nicely.
+          // maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
+          }
+        });
+      }
+      function setLineChart(){
+        var ctx = document.getElementById("results-bar-chart2").getContext('2d');
+        var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: x_labels,
+            datasets: [{
+              label: "Quizzes Taken Line Chart",
+               data: y_values, // Specify the data values array
+               // fill: false,
+               borderColor: ['#2196f38c', '#f443368c', '#3f51b570', '#00968896'], // Add custom color border
+               backgroundColor: ['#2196f38c', '#f443368c', '#3f51b570', '#00968896'], // Add custom color background (Points and Fill)
+               borderWidth: 1 // Specify bar border width
+          }]},
+          options: {
+          responsive: true, // Instruct chart js to respond nicely.
+          // maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
+          }
+        });
+      }
+    {% endblock %}
+  </script>
 
 {% endblock %}

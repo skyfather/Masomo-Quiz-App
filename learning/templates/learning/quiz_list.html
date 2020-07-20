@@ -13,7 +13,8 @@
 
   <div class="list-group">
     {% for quiz in object_list %}
-      {% if quiz.subject in user.student.interests.all %}
+      {% if quiz.subject in user.student.interests.all and quiz.roll_out%}
+
         <div  class="list-group-item mb-2">
           <h4 class="list-group-item-heading">
             {{ quiz.name }}
@@ -34,6 +35,9 @@
         <h4 class="list-group-item-heading">
           {{ quiz.name }}
           <a href="{% url 'quiz_detail' quiz.pk %}"><button type="button" name="btn_quiz_list" class="btn btn-info btn-sm ml-2">Details</button></a>
+          {% if not quiz.roll_out %}
+           NOT YET OUT
+          {% endif %}
         </h4>
         <p class="list-group-item-text">
           {{ quiz.subject }} <small class="text-muted">last updated on {{ quiz.updated_on }}</small>
@@ -43,14 +47,6 @@
     {% endfor %}
     {% endif %}
   </div>
-
-  <!-- <ul class="pagination">
-    <li><a href="#">1</a></li>
-    <li class="active"><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-  </ul> -->
 
   <!-- <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" href="#home">Home</a></li>

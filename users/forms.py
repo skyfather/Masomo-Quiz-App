@@ -12,13 +12,14 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta(UserCreationForm):
         model = CustomUser
         fields = ('username','email')#'__all__'
+        # fields = UserCreationForm.Meta.fields + ('username','email')
 
 class CustomUserChangeForm(UserChangeForm):
     """docstring for CustomUserChangeForm."""
 
     class Meta(UserChangeForm):
         model = CustomUser
-        fields = UserChangeForm.Meta.fields
+        fields = UserChangeForm.Meta.fields #+ 'is_teacher','is_student')
 
 class StudentSignUpForm(UserCreationForm):
     interests = forms.ModelMultipleChoiceField(
