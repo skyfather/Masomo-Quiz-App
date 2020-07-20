@@ -11,6 +11,9 @@ class CustomUser(AbstractUser):
     def get_student(self):
         return self.student
 
+    # def get_absolute_url(self):
+    #     return reverse('profile', kwargs={'pk': self.pk})
+
 class Student(models.Model):
     """docstring for Student."""
     user = models.OneToOneField(CustomUser,on_delete=models.CASCADE, primary_key=True)
