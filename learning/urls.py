@@ -2,7 +2,8 @@ from django.urls import path, include
 
 from . views import HomePageView
 from .views.quiz import QuizList, CreateQuizView, QuizDetailView, QuizUpdateView,QuizDeleteView, \
-                        quiz_taking, quiz_results,quiz_results_chart, QuizTake
+                        quiz_taking, quiz_results,quiz_results_chart, QuizTake, \
+                        generate_results_pdf
 from .views.questions import (QuestionList, CreateQuestionView, QuestionDetailView,
                             QuestionUpdateView,QuestionDeleteView )
 from .views.answers import AnswerList,CreateAnswerView
@@ -19,6 +20,7 @@ urlpatterns = [
     # path('quiz/<int:pk>/take/', QuizTake.as_view(), name="take_quiz"),
     path('quiz/<int:pk>/result/', quiz_results, name="quiz_result"),
     path('quiz/<int:pk>/result-chart/', quiz_results_chart, name="result-chart"),
+    path('quiz/<int:pk>/result/pdf/', generate_results_pdf, name="results_pdf"),
 
     path('question/', QuestionList.as_view(), name='question_list'),
     path('question/add/', CreateQuestionView.as_view(), name='create_question'),

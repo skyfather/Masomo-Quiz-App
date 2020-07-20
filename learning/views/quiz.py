@@ -3,11 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.urls import reverse_lazy, reverse
-from django.http import JsonResponse
 from django.contrib import messages
 from django.db.models import F
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView#,DetailView
 from django.views.generic.detail import DetailView
+import io
+from django.http import JsonResponse, FileResponse
+from reportlab.pdfgen import canvas
 
 from users.models import Student
 from .. models import Quiz, Question, Answer, QuizTaker, QuizTakerResponse
@@ -154,3 +156,39 @@ def quiz_results_chart(request, pk):
         'x_labels':x_labels,
         'y_values':y_values,
     })
+
+def generate_results_pdf(request, pk):
+    # Create a file-like buffer to receive PDF data.
+    buffer = io.BytesIO()
+
+    # Create the PDF object, using the buffer as its "file."
+    p = canvas.Canvas(buffer)
+
+    # Draw things on the PDF. Here's where the PDF generation happens.
+    # See the ReportLab documentation for the full list of functionality.
+    pdf_ruler(p)
+    p.drawCenteredString(300, 780, "Hello world.")
+
+    # Close the PDF object cleanly, and we're done.
+    p.showPage()
+    p.save()
+
+    # FileResponse sets the Content-Disposition header so that browsers
+    # present the option to save the file.
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='results.pdf')
+def pdf_ruler(canvas):
+    canvas.drawString(100, 830, 'x100')
+    canvas.drawString(200, 810, 'x200')
+    canvas.drawString(300, 810, 'x300')
+    canvas.drawString(400, 810, 'x400')
+    canvas.drawString(500, 810, 'x500')
+
+    canvas.drawString(10, 100, 'y100')
+    canvas.drawString(10, 200, 'y200')
+    canvas.drawString(10, 300, 'y300')
+    canvas.drawString(10, 400, 'y400')
+    canvas.drawString(10, 500, 'y500')
+    canvas.drawString(10, 600, 'y600')
+    canvas.drawString(10, 700, 'y700')
+    canvas.drawString(10, 800, 'y800')
