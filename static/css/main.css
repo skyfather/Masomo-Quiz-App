@@ -1,7 +1,11 @@
 body {
-	background-image: url(/static/images/white-and-black-mountain.jpg);
+	background-image: url(/static/images/photo2.jpeg) center;
 	-webkit-background-size: cover;
 	background-size: cover;
+}
+
+.navbar li {
+	color: white;
 }
 
 .login-item {
