@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
+{% block content %}
+  <div class="mb-2">
+    <center>  
+      <h2>{{ user }} Profile</h2>
+    </center>
+  </div>
+  <div class="row">
+    <div class="col-sm-6">
+      <h5>Update Profile</h5>
+      <form class="" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <button type="submit" name="btn_quiz_create" class="btn btn-primary">Update</button>
+      </form>
+    </div>
+    <div class="col-sm-6">
+      <h5 class="mt-2">Change Password</h5>
+      <a href="{% url 'password_change' %}" type="button" name="button" class="btn btn-default">Change Password</a>
+    </div>
+  </div>
+{% endblock %}
