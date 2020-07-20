@@ -17,6 +17,5 @@ class CustomUserAdmin(UserAdmin):
     # add_form = StudentSignUpForm
     # form = CustomUserChangeForm
     # fields = ['pub_date', 'question_text']
-
 admin.site.register(CustomUser, CustomUserAdmin)
 # admin.site.register(CustomUser, StudentAdmin)
