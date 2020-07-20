@@ -36,7 +36,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = env('DEBUG')
 
-DEBUG = False
+# DEBUG = True
 
 
 ALLOWED_HOSTS = []
@@ -144,11 +144,17 @@ STATIC_URL = '/static/'
 if DEBUG:
     STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static-only")
     STATICFILES_DIRS = (
-        os.path.join(os.path.dirname(BASE_DIR), "static","static"),
+        # os.path.join(os.path.dirname(BASE_DIR), "static","static"),
+        os.path.join(BASE_DIR, "static"),
     )
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # CKEDITOR_UPLOAD_PATH = "uploads/"
 
 LOGIN_REDIRECT_URL = 'quiz_list' #new
 LOGOUT_REDIRECT_URL = 'index' #new
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
+# EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
