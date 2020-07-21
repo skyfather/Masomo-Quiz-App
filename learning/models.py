@@ -1,7 +1,7 @@
 from django.urls import reverse
 from django.db import models
 from django.db.models import F
-from django.conf import settings
+# from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 # from django.db.models.signals import pre_save
