@@ -14,16 +14,15 @@ import os
 import environ
 
 
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+env_file = os.path.join(BASE_DIR, ".env")
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
 )
 # reading .env file
-environ.Env.read_env()
-
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+environ.Env.read_env(env_file)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
@@ -98,6 +97,17 @@ WSGI_APPLICATION = 'masomo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
+
+# DATABASES = {
+#     'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
+#     'NAME': 'mydatabase',
+#     'USER': 'mydatabaseuser',
+#     'PASSWORD': 'mypassword',
+#     'HOST': '127.0.0.1',
+#     'PORT': '5432',
+#     }
+# }
 
 DATABASES = {
     'default': env.db(),
