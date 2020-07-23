@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>Answer Details</h3>
+  <h6>Id: {{object.pk }} </h6>
+  <h6>{{object.answer|safe}}</h6>
+  <small>last updated on {{ object.updated_on }}</small>
+  <p>From Question: {{ object.question|safe }}.</p>
+  {% if user.is_authenticated and user.is_teacher %}
+    <a href="{% url 'answer_update' object.pk %}"><button type="button" name="btn_answer_detail" class="btn btn-warning btn-sm">Edit Answer</button></a>
+    <a href="{% url 'answer_delete' object.pk %}"><button type="button" name="btn_answer_detail" class="btn btn-danger btn-sm">Delete Answer</button></a>
+  {% endif %}<hr>
+{% endblock %}

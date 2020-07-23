@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h3>Quiz: {{ object.name }}</h3>
+  <h5 class="text-muted">Quiz id: {{object.pk }}</h5>
+  <h5 class="text-muted">Quiz owner: {{object.owner }}</h5>
+  <h7><small>last updated on {{ object.updated_on }}</small></h7>
+  <h7 class="text-muted">Has {{ object.get_questions.count }} questions</h7>
+  <div>
+    <a href="{% url 'quiz_list' %}" type="button" class="btn btn-primary btn-sm">Back</button></a>
+  </div>
+  {% if user.is_authenticated and user.is_teacher %}
+  <div class="mt-1">
+    <a href="{% url 'quiz_update' object.pk %}"><button type="button" name="btn_quiz_edit" class="btn btn-warning btn-sm">Edit Quiz</button></a>
+    {% if user == object.owner %}
+      <a href="{% url 'quiz_delete' object.pk %}"><button type="button" name="btn_quiz_delete" class="btn btn-danger btn-sm">Delete Quiz</button></a>
+    {% endif %}
+    <a href="{% url 'create_question' %}"><button type="button" name="btn_question_add" class="btn btn-primary btn-sm">Add Question</button></a>
+  </div>
+    <hr>
+    <div class="choices">
+      <h5>Questions</h5>
+      {{ object.question_list }}
+      <ol>
+        {% for question in object.get_questions %}
+          <li>
+            {{ question|safe }}
+            <a href="{% url 'question_detail' question.pk %}">Details</button></a>
+          </li>
+            <h6>Choices</h6>
+            <ol type="a">
+              {% for answer in question.get_answers %}
+                <li>{{ answer|safe }}</li>
+              {% endfor %}
+            </ol>
+        {% endfor %}
+      </ol>
+    </div><hr>
+  {% endif %}
+{% endblock %}
