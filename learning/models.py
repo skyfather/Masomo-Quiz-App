@@ -1,3 +1,5 @@
+import logging
+
 from django.urls import reverse
 from django.db import models
 from django.db.models import F
@@ -9,6 +11,9 @@ from django.utils import timezone
 
 from ckeditor.fields import RichTextField
 
+
+
+logger = logging.getLogger(__name__)
 
 class Subject(models.Model):
     """docstring for Subject."""
@@ -70,10 +75,13 @@ class Answer(models.Model):
     answer = RichTextField()
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     is_correct = models.BooleanField(default=False)
+    updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.answer
 
+    def get_absolute_url(self):
+        return reverse('answer_detail', kwargs={'pk': self.pk})
 
 class QuizTaker(models.Model):
     """docstring for QuizTakers."""
@@ -94,14 +102,16 @@ class QuizTaker(models.Model):
         try:
             score = (self.correct_answers/questions)*100
         except Exception as e:
-            print("DIVISION By ZERRO")
-            println(e)
+            logger.exception(f"DIVISION BY ZERO: {e}")
             return 0
         else:
             return score
 
     def __str__(self):
         return self.student.user.username
+
+    def __repr__(self):
+        return f'{self.student.user.username}, {start_time}, {end_time}'
 
     #ensure the quiz is from the student's interests in order to take it
     def save(self, *args, **kwargs):
@@ -112,10 +122,11 @@ class QuizTakerResponse(models.Model):
     quiztaker = models.ForeignKey(QuizTaker, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.ForeignKey(Answer,on_delete=models.CASCADE,null=True,blank=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if self.question.quiz != self.quiztaker.quiz:
-            print(f'{self.quiztaker} has not taken QUIZ {self.question.quiz}')# Maybe we need to raise it and catch it some
+            logger.warning(f'{self.quiztaker} has not taken QUIZ {self.question.quiz}')
             raise self.question.quiz.DoesNotExist(f"{self.quiztaker} has no interest in {self.question.quiz}")
         else:
             self.quiztaker.end_time = F(timezone.now())
