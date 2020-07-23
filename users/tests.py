@@ -27,15 +27,18 @@ class StudentTest(TestCase):
     def setUp(self):
         self.stud1 = Student.objects.get(user=self.stud)
         self.subj1 = create_subject("Science")
-        self.subj1 = create_subject("Mathematics")
-        # self.stud1.interests.set(self.subj1)
-        # self.subj1.interested_students.set(self.stud1)
+        self.subj2 = create_subject("Mathematics")
+        self.subj3 = create_subject("English")
+        self.stud1.interests.add(self.subj1)
+        self.subj2.interested_students.add(self.stud1)
 
     def test_student_created(self):
         self.assertEqual(self.stud1.user.username,self.user.username)
 
     def test_student_interests(self):
         self.assertEqual(self.stud1.interests.count(),self.stud1.get_interests().count())
+        self.assertIn(self.subj2, self.stud1.get_interests())
+        self.assertNotIn(self.subj3, self.stud1.get_interests())
 
 class StudentSignUpViewTest(TestCase):
     @classmethod
