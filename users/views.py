@@ -1,3 +1,6 @@
+import logging
+
+
 from django.shortcuts import render
 from django.contrib.auth import login
 from django.shortcuts import redirect
@@ -9,6 +12,9 @@ from django.contrib.auth.forms import UserChangeForm
 from .forms import StudentSignUpForm, TeacherSignUpForm
 from .models import CustomUser
 
+
+
+logger = logging.getLogger(__name__)
 
 class SignupView(TemplateView):
     """docstring for Signup."""

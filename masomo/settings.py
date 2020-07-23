@@ -168,3 +168,48 @@ LOGOUT_REDIRECT_URL = 'index' #new
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 # EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+
+LOGLEVEL = os.environ.get('LOGLEVEL', 'info').upper() #new
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {name} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+        'console': {
+            # exact format is not important, this is the minimum information
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': os.path.join(BASE_DIR, "nwa2_debug.log"),
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console','file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'masomo.users': {
+            'level': 'INFO',#LOGLEVEL,
+            'handlers': ['file'],
+            # required to avoid double logging with root logger
+            'propagate': False,
+        },
+    },
+}

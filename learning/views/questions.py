@@ -1,3 +1,4 @@
+import logging
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
@@ -8,6 +9,8 @@ from .. models import Question
 from .. forms import QuestionForm
 from .. decorators import teacher_required
 
+
+logger = logging.getLogger(__name__)
 
 class QuestionList(ListView):
     model = Question

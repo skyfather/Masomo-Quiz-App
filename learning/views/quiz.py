@@ -1,3 +1,4 @@
+import logging
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render,redirect
@@ -16,6 +17,8 @@ from .. models import Quiz, Question, Answer, QuizTaker, QuizTakerResponse
 from .. forms import QuizForm
 from .. decorators import teacher_required, student_required
 
+
+logger = logging.getLogger(__name__)
 
 class QuizList(ListView):
     model = Quiz
@@ -71,10 +74,10 @@ def quiz_taking(request, pk):
 
     quiz_takers = QuizTaker.objects.filter(quiz=quiz)
     context = {
-    'quiz':quiz,
-    'quiz_takers':quiz_takers,
-    'quiz_takers_count':quiz_takers.count(),
-    'questions': questions
+        'quiz':quiz,
+        'quiz_takers':quiz_takers,
+        'quiz_takers_count':quiz_takers.count(),
+        'questions': questions
     }
     # quiz_takers.delete()
     if request.method == 'POST':
@@ -84,6 +87,7 @@ def quiz_taking(request, pk):
             request.session['quiz_taken'] = quiz_taker.quiz.name
             request.session['quiz_taker'] = quiz_taker.student.user.username
             request.session['quiz_taker_id'] = quiz_taker.id
+            logger.info(quiz_taker)
 
         elif request.POST.get('question_choice'):
             request.session['question_choice'] = request.POST.get('question_choice')
@@ -94,12 +98,15 @@ def quiz_taking(request, pk):
             try:
                 question = Question.objects.get(question=request.POST.get('question'))
                 answer = Answer.objects.get(answer=request.POST.get('question_choice'))
-            except Question.DoesNotExist:
+            except Question.DoesNotExist as e:
+                logger.exception(f"Question Excpetion DoesNotExist {e}")
                 raise
-            except Answer.DoesNotExist:
+            except Answer.DoesNotExist as e:
+                logger.exception(f"Answer Excpetion DoesNotExist : {e} {quiz_taker}")
                 raise
             else:
                 student_response = QuizTakerResponse.objects.create(quiztaker=quiz_taker,question=question,answer=answer)
+                logger.info(student_response)
                 #update the correct_answers for the quiz_taker
                 if answer.is_correct:
                     quiz_taker.correct_answers = F('correct_answers')+1
