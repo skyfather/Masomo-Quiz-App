@@ -2,6 +2,7 @@
 
 {% block content %}
   <h3>Question: {{object.pk }}</h3>
+  <p>{{object.question|safe}}</p>
   <small>last updated on {{ object.updated_on }}</small>
   <p>From Quiz: {{ object.quiz }}.</p>
   {% if user.is_authenticated and user.is_teacher %}
@@ -10,13 +11,17 @@
 
     <a href="{% url 'create_answer' %}"><button type="button" name="btn_answer_add" class="btn btn-primary btn-sm">Add Answer</button></a>
   {% endif %}<hr>
-  <p>{{object.question|safe}}</p>
   <div class="answers">
     <h5>Answers</h5>
     {{ object.answer_list }}
-    <ol>
+    <ol type="a">
       {% for answer in object.get_answers %}
-        <li>{{ answer }}</li>
+        <a href="{% url 'answer_detail' answer.pk %}">
+          <li>{{ answer|safe }}</li>
+        </a>
+        {% if answer.is_correct %}
+          <small class="success">Is Correct</small>
+        {% endif %}
       {% endfor %}
     </ol>
   </div><hr>

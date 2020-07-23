@@ -9,40 +9,44 @@
     </div>
   {% endif %}
   {% if user.is_authenticated and user.is_student %}
+    <div class="list-group">
+      {% for quiz in object_list %}
+        {% if quiz.subject in user.student.interests.all and quiz.roll_out%}
 
-
-  <div class="list-group">
-    {% for quiz in object_list %}
-      {% if quiz.subject in user.student.interests.all and quiz.roll_out%}
-
-        <div  class="list-group-item mb-2">
-          <h4 class="list-group-item-heading">
-            {{ quiz.name }}
-            <a href="{% url 'quiz_detail' quiz.pk %}"><button type="button" name="btn_quiz_list" class="btn btn-info btn-sm ml-2">Details</button></a>
-          </h4>
-          <p class="list-group-item-text">
-            {{ quiz.subject }} <small class="text-muted">last updated on {{ quiz.updated_on }}</small>
-            <a href="{% url 'take_quiz' quiz.pk %}"><button type="button" name="btn_question_take" class="btn btn-outline-primary btn-sm ml-2">Take Quiz</button></a>
-          </p>
-        </div>
-      {% endif %}
-    {% endfor %}
-  </div>
+          <div  class="list-group-item mb-2">
+            <h4 class="list-group-item-heading">
+              {{ quiz.name }}
+              
+            </h4>
+            <div class="list-group-item-text">
+              <p>{{ quiz.subject }} <small class="text-muted">last updated on {{ quiz.updated_on }}</small></p>
+              <h7>Owner: {{ quiz.owner }}</h7>
+              <a href="{% url 'quiz_detail' quiz.pk %}"><button type="button" name="btn_quiz_list" class="btn btn-info btn-sm ml-2">Details</button></a>
+              <a href="{% url 'take_quiz' quiz.pk %}"><button type="button" name="btn_question_take" class="btn btn-outline-primary btn-sm ml-2">Take Quiz</button></a>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
   {% else %}
     <div class="list-group">
     {% for quiz in object_list %}
       <div  class="list-group-item mb-2">
         <h4 class="list-group-item-heading">
-          {{ quiz.name }}
-          <a href="{% url 'quiz_detail' quiz.pk %}"><button type="button" name="btn_quiz_list" class="btn btn-info btn-sm ml-2">Details</button></a>
-          {% if not quiz.roll_out %}
-           NOT YET OUT
-          {% endif %}
+          {{ quiz.name }}      
         </h4>
-        <p class="list-group-item-text">
-          {{ quiz.subject }} <small class="text-muted">last updated on {{ quiz.updated_on }}</small>
-
-        </p>
+        <div class="list-group-item-text">
+          <p>{{ quiz.subject }} <small class="text-muted">last updated on {{ quiz.updated_on }}</small></p>
+          <h7>Owner: {{ quiz.owner }}</h7>
+          {% if not quiz.roll_out %}
+             <p class="text-danger">status: NOT OUT YET</p>
+           {% else %}
+             <p class="text-success">status: Rolled Out</p>
+          {% endif %}
+          <a href="{% url 'quiz_detail' quiz.pk %}">
+            <button type="button" name="btn_quiz_list" class="btn btn-info btn-sm ml-2">Details</button>
+          </a>
+        </div>
       </div>
     {% endfor %}
     {% endif %}
