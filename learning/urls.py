@@ -6,7 +6,9 @@ from .views.quiz import QuizList, CreateQuizView, QuizDetailView, QuizUpdateView
                         generate_results_pdf
 from .views.questions import (QuestionList, CreateQuestionView, QuestionDetailView,
                             QuestionUpdateView,QuestionDeleteView )
-from .views.answers import AnswerList,CreateAnswerView
+from .views.answers import (AnswerList,CreateAnswerView, AnswerDetailView,
+                            AnswerUpdateView, AnswerDeleteView
+                            )
 
 
 urlpatterns = [
@@ -30,4 +32,7 @@ urlpatterns = [
 
     path('answer/', AnswerList.as_view(), name='answer_list'),
     path('answer/add/', CreateAnswerView.as_view(), name='create_answer'),
+    path('answer/<int:pk>/', AnswerDetailView.as_view(),name="answer_detail"),
+    path('answer/<int:pk>/update/', AnswerUpdateView.as_view(),name="answer_update"),
+    path('answer/<int:pk>/delete/', AnswerDeleteView.as_view(),name="answer_delete"),
 ]
