@@ -172,11 +172,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 LOGIN_REDIRECT_URL = 'quiz_list' #new
 LOGOUT_REDIRECT_URL = 'index' #new
 
-
-MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-MEDIA_ROO = os.path.join(BASE_DIR, 'media')
-
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 # EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
 
