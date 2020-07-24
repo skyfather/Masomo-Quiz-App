@@ -158,7 +158,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 if DEBUG:
-    STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static", "static-only")
+    STATIC_ROOT = os.path.join(BASE_DIR, "static", "static-only")
     STATICFILES_DIRS = (
         # os.path.join(os.path.dirname(BASE_DIR), "static","static"),
         os.path.join(BASE_DIR, "static"),
