@@ -12,11 +12,15 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 import environ
+import logging
 
 
+logger = logging.getLogger(__name__)
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 env_file = os.path.join(BASE_DIR, ".env")
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
@@ -34,11 +38,12 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = env('DEBUG')
+# DEBUG = True
 
 # DEBUG = True
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['masomoquiz.pythonanywhere.com']
 
 
 # Application definition
@@ -99,19 +104,20 @@ WSGI_APPLICATION = 'masomo.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # DATABASES = {
-#     'default': {
-#     'ENGINE': 'django.db.backends.postgresql',
-#     'NAME': 'mydatabase',
-#     'USER': 'mydatabaseuser',
-#     'PASSWORD': 'mypassword',
-#     'HOST': '127.0.0.1',
-#     'PORT': '5432',
-#     }
+#     'default': env.db(),
 # }
 
 DATABASES = {
-    'default': env.db(),
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        # 'PORT': '5432',
+    }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -166,8 +172,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 LOGIN_REDIRECT_URL = 'quiz_list' #new
 LOGOUT_REDIRECT_URL = 'index' #new
 
+
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROO = os.path.join(BASE_DIR, 'media')
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
 # EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+
 
 LOGLEVEL = os.environ.get('LOGLEVEL', 'info').upper() #new
 LOGGING = {
