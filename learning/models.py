@@ -111,7 +111,7 @@ class QuizTaker(models.Model):
         return self.student.user.username
 
     def __repr__(self):
-        return f'{self.student.user.username}, {start_time}, {end_time}'
+        return f'{self.student.user.username}, {self.start_time}, {self.end_time}'
 
     #ensure the quiz is from the student's interests in order to take it
     def save(self, *args, **kwargs):
