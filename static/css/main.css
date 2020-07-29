@@ -43,8 +43,8 @@ body {
 }
 
 .login-item input {
-	border: none;
-	border-bottom: 1px solid #ddd;
+	border: 1px solid #ddd;
+	/*border-bottom: 1px solid #ddd;*/
 	background: transparent;
 	outline: none;
 	opacity: 1;
