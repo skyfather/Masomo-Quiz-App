@@ -9,6 +9,7 @@
     </div>
   {% endif %}
   {% if user.is_authenticated and user.is_student %}
+    {% if object_list %}
     <div class="list-group">
       {% for quiz in object_list %}
         {% if quiz.subject in user.student.interests.all and quiz.roll_out%}
@@ -28,6 +29,11 @@
         {% endif %}
       {% endfor %}
     </div>
+    {% else %}
+    <div>
+      <h5>No Quizzes yet.</h5>
+    </div>
+    {% endif %}
   {% else %}
     <div class="list-group">
     {% for quiz in object_list %}
