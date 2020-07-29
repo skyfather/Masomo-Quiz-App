@@ -30,7 +30,7 @@ class CreateQuizView(CreateView):
     form_class = QuizForm
     # success_url = reverse_lazy('quiz_detail')
     # template_name = 'learning\\create_quiz.html'
-    template_name = 'learning\\quiz_add.html'
+    template_name = 'learning/quiz_add.html'
 
 class QuizDetailView(DetailView):
     """docstring for QuizDetailView."""
