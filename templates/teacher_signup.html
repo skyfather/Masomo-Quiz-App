@@ -1,28 +1,27 @@
 {% extends 'base.html' %}
 
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{% bootstrap_messages %}
+
 {% block content %}
-  <div class="login-item">
-    <h2>Teacher Signup</h2>
-    <form role="form" class="" method="post">
-      {% csrf_token %}
-      {% for field in form %}
-      <!-- <div class="form-group">
-        <label >{{ field.label_tag }}</label>
-        <input type="email" class="form-control" id="email">
-      </div> -->
-        <p>
-            {{ field.label_tag }}<br>
-            {{ field }}
-            {% if field.help_text %}
-              <small style="color: grey">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-              <p style="color: red">{{ error }}</p>
-            {% endfor %}
-          </p>
-      {% endfor %}
-      <button type="submit" name="button" class="btn btn-success">SignUp</button>
-    </form>
-    <p>Alredy have an acount? <a href="{%url 'login' %}">Login</a></p>
-  </div>
+<div class="login">
+    <div class="login-item">
+      <form class="form" method="post">
+        <h2>Teacer Signup</h2>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons %}
+        <button type="submit" class="btn btn-primary">
+        Signup
+        </button>
+        {% endbuttons %}
+      </form>
+      <div class="bottom-text">
+        <p>Alredy have an acount? <a href="{%url 'login' %}">Login</a></p>
+      </div>
+    </div>
+</div>
+
 {% endblock %}
