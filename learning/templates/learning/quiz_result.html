@@ -11,7 +11,7 @@
         <small class="text-muted">Start Time: {{ quiz_taker.start_time }}</small>
         <small class="text-muted">End Time: {{ quiz_taker.end_time }}</small>
       </p>
-      <a href="{% url 'results_pdf' quiz_taker.quiz.id %}" type="button" name="button" class="btn btn-primary mb-1">Download</a>
+      <!-- <a href="{% url 'results_pdf' quiz_taker.quiz.id %}" type="button" name="button" class="btn btn-primary mb-1">Download</a> -->
       {% for response in quiz_results %}
         <div class="list-group">
               <div  class="list-group-item mb-2">
