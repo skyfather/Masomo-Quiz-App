@@ -133,4 +133,4 @@ class QuizTakerResponse(models.Model):
             return super(QuizTakerResponse, self).save(*args,**kwargs)
 
     def __str__(self):
-        return self.question
+        return self.question.question
