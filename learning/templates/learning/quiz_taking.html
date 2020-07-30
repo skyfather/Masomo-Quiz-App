@@ -12,12 +12,13 @@
         </ul>
       {% endif %}
       {% if quiz.get_questions %}
-        <h5>Questions: </h5>
+      <p class="text-muted">Please click the start button to take quiz</p>
         <form method="post">
           {% csrf_token %}
           <input type="hidden" name="start_quiz" value="{{quiz.name}}">
           <button type="submit" name="button_quiz_taken" class="btn btn-danger mb-2">START</button>
         </form>
+        <h5>Questions: </h5>
         <ul class="list-group">
         {% for question in questions %}
           <li class="list-group-item mb-3">
@@ -37,9 +38,9 @@
                   </div>
                 {% endfor %}
                 {% if questions.has_next %}
-                  <button type="submit" name="subsequent_submit" class="btn btn-outline-warning">Submit</button>
+                  <button type="submit" name="subsequent_submit" class="btn btn-outline-primary">Submit</button>
                 {% else %}
-                  <input type="submit" name="final_submit" value="Submit">
+                  <input type="submit" name="final_submit" class="btn btn-outline-warning" value="Submit">
                 {% endif %}
             </form>
           </li>

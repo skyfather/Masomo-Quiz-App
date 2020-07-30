@@ -6,12 +6,13 @@
       <h3>{{quiz.name}}</h3>
       {% if object_list %}
       {#{% if object_list.get_questions %}#}
-        <h5>Questions: </h5>
+      <p>Please click the start button to take quiz</p>
         <form method="post">
           {% csrf_token %}
           <input type="hidden" name="start_quiz" value="{{quiz.name}}">
           <button type="submit" name="button_quiz_taken" class="btn btn-danger mb-2">START</button>
         </form>
+        <h5>Questions: </h5>
         <ul class="list-group">
         {% for question in object_list %}
           <li class="list-group-item mb-3">
@@ -34,7 +35,7 @@
                   <button type="submit" name="q_answer" class="btn btn-outline-warning">Submit</button>
                   <a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-success">Next</a>
                 {% else %}
-                  <button type="button" name="button">Submita</button>
+                  <button type="button" name="button" class="btn btn-outline-warning">Submita</button>
                 {% endif %}
             </form>
           </li>
