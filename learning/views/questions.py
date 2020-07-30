@@ -15,19 +15,19 @@ logger = logging.getLogger(__name__)
 class QuestionList(ListView):
     model = Question
     paginate_by = 3
-    template_name = 'learning\\question_list.html'
+    template_name = 'learning/question_list.html'
 
 @method_decorator([login_required, teacher_required], name='dispatch')
 class CreateQuestionView(CreateView):
     form_class = QuestionForm
     # success_url = reverse_lazy('quiz_detail')
-    template_name = 'learning\\question_add.html'
+    template_name = 'learning/question_add.html'
 
 class QuestionDetailView(DetailView):
     """docstring for QuizDetailView."""
 
     model = Question
-    template_name = 'learning\\question_detail.html'
+    template_name = 'learning/question_detail.html'
     # def get_context_data(self, **kwargs):
     #     # Call the base implementation first to get a context
     #     context = super().get_context_data(**kwargs)
@@ -38,7 +38,7 @@ class QuestionDetailView(DetailView):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class QuestionUpdateView(UpdateView):
     model = Question
-    template_name = 'learning\\question_add.html'
+    template_name = 'learning/question_add.html'
     fields = '__all__'
 
 @method_decorator([login_required, teacher_required], name='dispatch')

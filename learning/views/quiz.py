@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class QuizList(ListView):
     model = Quiz
     # paginate_by = 2
-    template_name = 'learning\\quiz_list.html'
+    template_name = 'learning/quiz_list.html'
 
 @method_decorator([login_required, teacher_required], name='dispatch')
 class CreateQuizView(CreateView):
@@ -36,7 +36,7 @@ class QuizDetailView(DetailView):
     """docstring for QuizDetailView."""
 
     model = Quiz
-    template_name = 'learning\\quiz_detail.html'
+    template_name = 'learning/quiz_detail.html'
 
     def get_context_data(self, **kwargs):
         # Call the base implementation first to get a context
@@ -48,7 +48,7 @@ class QuizDetailView(DetailView):
 @method_decorator([login_required, teacher_required], name='dispatch')
 class QuizUpdateView(UpdateView):
     model = Quiz
-    template_name = 'learning\\quiz_update.html'
+    template_name = 'learning/quiz_update.html'
     fields = '__all__'
 
 @method_decorator([login_required, teacher_required], name='dispatch')
@@ -59,7 +59,7 @@ class QuizDeleteView(DeleteView):
 class QuizTake(ListView):
     model = Question
     paginate_by = 1
-    template_name = 'learning\\quiz_taking2.html'
+    template_name = 'learning/quiz_taking2.html'
 
 
 #Student taking Quiz
@@ -116,7 +116,7 @@ def quiz_taking(request, pk):
             if request.POST.get('final_submit'):
                 return redirect('quiz_result',pk=quiz.pk) #Maybe change redirect to reverse
 
-    return render(request,"learning\\quiz_taking.html",context)
+    return render(request,"learning/quiz_taking.html",context)
 
 @login_required
 @student_required
@@ -136,7 +136,7 @@ def quiz_results(request, pk):
         # 'score': score,
         'score': quiz_taker.get_percentage_score(),
     }
-    return render(request,"learning\\quiz_result.html",context)
+    return render(request,"learning/quiz_result.html",context)
 
 def quiz_results_chart(request, pk):
     quiz_taker_id = request.session['quiz_taker_id']

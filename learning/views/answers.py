@@ -10,13 +10,13 @@ from .. decorators import teacher_required
 
 class AnswerList(ListView):
     model = Answer
-    template_name = 'learning\\answer_list.html'
+    template_name = 'learning/answer_list.html'
 
 @method_decorator([login_required, teacher_required], name='dispatch')
 class CreateAnswerView(CreateView):
     form_class = AnswerForm
     # success_url = reverse_lazy('quiz_detail')
-    template_name = 'learning\\create_answer.html'
+    template_name = 'learning/create_answer.html'
     success_url = reverse_lazy('question_list')
     # success_url = reverse_lazy('question_detail')
     # success_url = reverse_lazy('question_detail', args=[self.question.pk])
@@ -27,12 +27,12 @@ class CreateAnswerView(CreateView):
 
 class AnswerDetailView(DetailView):
     model = Answer
-    template_name = 'learning\\answer_detail.html'
+    template_name = 'learning/answer_detail.html'
     
 @method_decorator([login_required, teacher_required], name='dispatch')
 class AnswerUpdateView(UpdateView):
     model = Answer
-    template_name = 'learning\\create_answer.html'
+    template_name = 'learning/create_answer.html'
     fields = '__all__'
 
 @method_decorator([login_required, teacher_required], name='dispatch')
